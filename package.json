@@ -2,7 +2,7 @@
   "name": "react-canonical",
   "version": "0.1.0",
   "private": true,
-    "scripts": {
+  "scripts": {
     "start": "webpack serve --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "deploy": "npm run build && gh-pages -d dist",
