@@ -2,33 +2,29 @@ import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { AppDispatch, useDispatch, useSelector } from '../../services/store';
+import { useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
-import { fetchBurgerIngredients } from '../../services/slices/burgerIngredientsSlice';
 
-type OrderInfoProps = { type: 'feed' | 'profile'};
+type OrderInfoProps = { type: 'feed' | 'profile' };
 
-export const OrderInfo: FC<OrderInfoProps> = ({ type } : OrderInfoProps) => {
-  const dispatch: AppDispatch = useDispatch();
+export const OrderInfo: FC<OrderInfoProps> = ({ type }: OrderInfoProps) => {
   const { number } = useParams();
 
-  const orderData = useSelector(state => (type == 'feed') 
-    ? state.feeds.feeds?.orders.find(item => item.number == parseInt(number!))
-    : state.orders.orders.find(item => item.number == parseInt(number!))
+  const orderData = useSelector((state) =>
+    type == 'feed'
+      ? state.feeds.feeds?.orders.find(
+          (item) => item.number == parseInt(number!)
+        )
+      : state.orders.orders.find((item) => item.number == parseInt(number!))
   );
 
   const ingredients: TIngredient[] = useSelector(
-    state => state.burgerIngredients.ingredients
+    (state) => state.burgerIngredients.ingredients
   );
 
-  useEffect(() => {
-    dispatch(fetchBurgerIngredients());
-  },[]);
-  
-  console.log(orderData, "\n", ingredients);
+  console.log(orderData, '\n', ingredients);
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
-  
     if (!orderData || !ingredients.length) return null;
     console.log(123);
     const date = new Date(orderData.createdAt);
